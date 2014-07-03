@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>The EML R package</title>
+  <meta charset="utf-8">
+  <meta name="description" content="The EML R package">
+  <meta name="author" content="Claas-Thido Pfaff">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="libraries/widgets/bootstrap/css/bootstrap.css"></link>
+<link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>The EML R package</h1>
+    <h2>Metadata integration into R</h2>
+    <p>Claas-Thido Pfaff<br/></p>
+  </hgroup>
+    <a href="https://github.com//emlrpackage/zipball/gh-pages" class="example">
+     Download
+    </a>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>About the package</h2>
+  </hgroup>
+  <article data-timings="">
+    <hr />
+
+<p><br>
+<br></p>
+
+<p><code>EML for R</code> allows </p>
+
+<ul>
+<li>reading</li>
+<li>describe</li>
+<li>publishing </li>
+</ul>
+
+<p>data using the Ecological Metadata Language (EML) format.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>About the package</h2>
+  </hgroup>
+  <article data-timings="">
+    <hr />
+
+<ul>
+<li>Part of the rOpenSci (Data-Acess, Vizualisation, Reproducibility... 30+)</li>
+<li>Developed by:</li>
+</ul>
+
+<p><img src="assets/img/ropensci_all_developers.png" style="width: 700px;"/></p>
+
+<ul>
+<li>Advised: Matt Jones (EML maintainer), Duncan T. Lang (R-Core development)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>About the package</h2>
+  </hgroup>
+  <article data-timings="">
+    <hr />
+
+<p><br></p>
+
+<ul>
+<li><p>Motivation:</p></li>
+<li><p>Many ecol. data lacks description</p>
+
+<ul>
+<li>is hard to find/understand/reuse</li>
+</ul></li>
+<li><p>Good metadata:</p>
+
+<ul>
+<li>Unerstand</li>
+<li>Better reuse (reduce redundancy)</li>
+<li>Potentially more visibility</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Install the package</h2>
+  </hgroup>
+  <article data-timings="">
+    <hr />
+
+<p><br></p>
+
+<ul>
+<li><p>Source code:</p>
+
+<ul>
+<li><a href="https://github.com/ropensci/EML">https://github.com/ropensci/EML</a></li>
+</ul></li>
+<li><p>From Github with (as in development): </p></li>
+</ul>
+
+<pre><code>library(&quot;devtools&quot;)
+install_github(&quot;EML&quot;, &quot;ropensci&quot;)
+library(&quot;EML&quot;)
+</code></pre>
+
+<ul>
+<li>If vignettes building fails</li>
+</ul>
+
+<pre><code>install_github(&quot;EML&quot;, &quot;ropensci&quot;, build_vignettes=FALSE)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>Read metadata</h2>
+  </hgroup>
+  <article data-timings="">
+    <hr />
+
+<ul>
+<li>example the BEF-China database (column definition, coverage, contact)</li>
+<li>URL EML file: (<a href="http://china.befdata.biow.uni-leipzig.de/datasets/334.eml">http://china.befdata.biow.uni-leipzig.de/datasets/334.eml</a>)</li>
+</ul>
+
+<p><img src="assets/img/befdata_example.png" style="width: 600px;"/></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>Read metadata</h2>
+  </hgroup>
+  <article data-timings="">
+    <hr />
+
+<ul>
+<li>Get the metadata (File, URL, KNB-ID)</li>
+</ul>
+
+<pre><code class="r">metadata &lt;- eml_read(&quot;http://china.befdata.biow.uni-leipzig.de/datasets/334.eml&quot;)
+</code></pre>
+
+<ul>
+<li>Then use <code>eml_get(metadata, &quot;xy&quot;)</code>
+
+<ul>
+<li>csv_filepaths</li>
+<li>coverage</li>
+<li>contact</li>
+<li>unit.defs</li>
+<li>col.defs</li>
+<li>creator</li>
+<li>data.set ...</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-7" style="background:;">
+  <hgroup>
+    <h2>Read metadata</h2>
+  </hgroup>
+  <article data-timings="">
+    <hr />
+
+<pre><code class="r">eml_get(metadata, &quot;col.defs&quot;)[1]
+</code></pre>
+
+<pre><code>##                                                                                                                                                                                                                                                                                                                              attribute 
+## &quot;Plot number according to design spreadsheet. Plots are named according to their location on the original spreadsheet used for treatment design. This has letters from West to East and numbers from North to south. Some plots were moved half a gridcell (1 mu) so be suitable for planting (grid cell loctype). (plot_id: plot_id)&quot;
+</code></pre>
+
+<pre><code class="r">eml_get(metadata, &quot;creator&quot;)
+</code></pre>
+
+<pre><code>## [1] &quot;Anne Lang &lt;anne_christina.lang@uni-leipzig.de&gt; [cre]&quot;
+## [2] &quot;Werner HÃ¤rdtle &lt;haerdtle@uni-lueneburg.de&gt; [cre]&quot;   
+## [3] &quot;Goddert von Oheimb &lt;vonoheimb@uni.leuphana.de&gt; [cre]&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-8" style="background:;">
+  <hgroup>
+    <h2>Read metadata</h2>
+  </hgroup>
+  <article data-timings="">
+    <hr />
+
+<pre><code class="r">eml_get(metadata, &quot;coverage&quot;)
+</code></pre>
+
+<pre><code>## geographicCoverage:
+##   geographicDescription: &quot;The experiment was set up in the northeast part of Jiangxi
+##     Province, P.R. China (N 29Â° 06.29 E 117Â° 55.28). \n&quot;
+##   boundingCoordinates:
+##     westBoundingCoordinate: &#39;117.89978&#39;
+##     eastBoundingCoordinate: &#39;118.148346&#39;
+##     northBoundingCoordinate: &#39;29.285201&#39;
+##     southBoundingCoordinate: &#39;29.101777&#39;
+## temporalCoverage:
+##   rangeOfDates:
+##     beginDate:
+##       calendarDate: |2
+## 
+##         2009-08-26
+##     endDate:
+##       calendarDate: |2
+## 
+##         2010-09-26
+## taxonomicCoverage:
+##   taxonomicClassification:
+##     commonName: |2+
+## 
+##       tree species (Schima superba, Elaeoarpus decipiens, Castanea henryi, Quercus serrata)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-9" style="background:;">
+  <hgroup>
+    <h2>Read metadata</h2>
+  </hgroup>
+  <article data-timings="">
+    <hr />
+
+<p><br></p>
+
+<ul>
+<li>Extract the data (open access):</li>
+</ul>
+
+<pre><code>example_dataset = eml_get(metadata, &quot;data.set&quot;)
+</code></pre>
+
+<pre><code class="r">example_dataset[1:4, 1:3]
+</code></pre>
+
+<pre><code>##     plot_id             Spp Leaf_15N_recovery_g_T5
+## 1 pilot1C09 Castanea henryi              1.504e-05
+## 2 pilot1D10 Castanea henryi              8.604e-05
+## 3 pilot2C11 Castanea henryi              2.905e-05
+## 4 pilot2D01 Castanea henryi              8.923e-06
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-10" style="background:;">
+  <hgroup>
+    <h2>Describe your own</h2>
+  </hgroup>
+  <article data-timings="">
+    <hr />
+
+<pre><code class="r">river = c(&quot;SAC&quot;,  &quot;SAC&quot;,   &quot;AM&quot;)
+spp   = c(&quot;king&quot;,  &quot;king&quot;, &quot;ccho&quot;)
+stg   = c(&quot;smolt&quot;, &quot;parr&quot;, &quot;smolt&quot;)
+ct    = c(293,    410,    210)
+</code></pre>
+
+<pre><code class="r">undescribed_dataframe = data.frame(river, spp, stg, ct)
+undescribed_dataframe
+</code></pre>
+
+<pre><code>##   river  spp   stg  ct
+## 1   SAC king smolt 293
+## 2   SAC king  parr 410
+## 3    AM ccho smolt 210
+</code></pre>
+
+<ul>
+<li>EML extends <code>data.frame</code> with <code>data.set</code> class (additional params)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-11" style="background:;">
+  <hgroup>
+    <h2>Describe your own</h2>
+  </hgroup>
+  <article data-timings="">
+    <hr />
+
+<ul>
+<li><code>col.defs</code> (plain text definition)</li>
+</ul>
+
+<pre><code class="r">col_defs = c(&quot;River site used for collection&quot;,
+             &quot;Species common name&quot;,
+             &quot;Life Stage&quot;,
+             &quot;count of live fish in traps&quot;)
+</code></pre>
+
+<ul>
+<li><code>unit.defs</code> (factor =&gt; levels, dates =&gt; YYYY or MM-DD-YY, numeric =&gt; unit list KNB)</li>
+</ul>
+
+<pre><code class="r">unit_defs = list(c(SAC = &quot;The Sacramento River&quot;, AM = &quot;The American River&quot;),
+                 c(king = &quot;King Salmon&quot;, ccho = &quot;Coho Salmon&quot;),
+                 c(parr = &quot;third life stage&quot;, smolt = &quot;fourth life stage&quot;),
+                 &quot;number&quot;)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-12" style="background:;">
+  <hgroup>
+    <h2>Describe your own</h2>
+  </hgroup>
+  <article data-timings="">
+    <hr />
+
+<ul>
+<li>Use the prepared variables:</li>
+</ul>
+
+<pre><code class="r">described_dataset = data.set(river = c(&quot;SAC&quot;,  &quot;SAC&quot;, &quot;AM&quot;),
+                             spp   = c(&quot;king&quot;,  &quot;king&quot;, &quot;ccho&quot;),
+                             stg   = c(&quot;smolt&quot;, &quot;parr&quot;, &quot;smolt&quot;),
+                             ct    = c(293,    410,    210),
+                             col.defs = col_defs,
+                             unit.defs = unit_defs)
+</code></pre>
+
+<ul>
+<li>Convert: </li>
+</ul>
+
+<pre><code>data.set(undescribed_dataframe, col.def = col_defs, uni.defs = unit_defs)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h2>Describe your own. More!</h2>
+  </hgroup>
+  <article data-timings="">
+    <hr />
+
+<pre><code>- eml
+  - dataset
+    - creator (add)
+    - contact (add)
+    - publisher
+    - title (add)
+    - pubDate
+    - keywords
+    - abstract 
+    - intellectualRights (resuse)
+    - methods
+    - coverage
+    - dataTable
+      - physical
+      - attributeList
+  - additionalMetadata
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>Describe your own. More!</h2>
+  </hgroup>
+  <article data-timings="">
+    <hr />
+
+<ul>
+<li>Create person</li>
+</ul>
+
+<pre><code class="r">claas = eml_person(&quot;Claas-Thido Pfaff &lt;fake@test.com&gt;&quot;)                            
+</code></pre>
+
+<ul>
+<li>Coerce to creator/contact class (subsettable via @)</li>
+</ul>
+
+<pre><code class="r">creator_claas = as(claas, &quot;creator&quot;)
+contact_claas = as(claas, &quot;contact&quot;)
+creator_claas@individualName
+</code></pre>
+
+<pre><code>## An object of class &quot;individualName&quot;
+## Slot &quot;salutation&quot;:
+## character(0)
+## 
+## Slot &quot;givenName&quot;:
+## [1] &quot;Claas-Thido&quot;
+## 
+## Slot &quot;surName&quot;:
+## [1] &quot;Pfaff&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-15" style="background:;">
+  <hgroup>
+    <h2>Describe your own. More!</h2>
+  </hgroup>
+  <article data-timings="">
+    <hr />
+
+<ul>
+<li>Create address</li>
+</ul>
+
+<pre><code class="r">address &lt;- new(&quot;address&quot;,
+               deliveryPoint = &quot;Universität Leipzig, Johannisallee 21&quot;,
+               city = &quot;Leipzig&quot;,
+               postalCode = &quot;04103&quot;,
+               country = &quot;GER&quot;) 
+</code></pre>
+
+<ul>
+<li>Add address (creator/contact)</li>
+</ul>
+
+<pre><code class="r">creator_claas@address = address
+contact_claas@address = address
+creator_claas@address@city
+</code></pre>
+
+<pre><code>## [1] &quot;Leipzig&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-16" style="background:;">
+  <hgroup>
+    <h2>Describe your own. More!</h2>
+  </hgroup>
+  <article data-timings="">
+    <hr />
+
+<p><br/></p>
+
+<ul>
+<li>Create a title 
+
+<ul>
+<li>(<code>string</code> also e.g intellectual rights,abstract ... )</li>
+</ul></li>
+</ul>
+
+<pre><code class="r">title &lt;- &quot;This is my first dataset title with EML from R&quot;
+</code></pre>
+
+<ul>
+<li>Reuse intellectual rights!</li>
+</ul>
+
+<pre><code class="r">metadata &lt;- eml_read(&quot;http://china.befdata.biow.uni-leipzig.de/datasets/334.eml&quot;)
+</code></pre>
+
+<pre><code class="r">license = metadata@dataset@intellectualRights
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-17" style="background:;">
+  <hgroup>
+    <h2>Describe your own. More!</h2>
+  </hgroup>
+  <article data-timings="">
+    <hr />
+
+<p><br/></p>
+
+<ul>
+<li>License </li>
+</ul>
+
+<pre><code class="r">unlist(strsplit(metadata@dataset@intellectualRights, split=&quot;\\.&quot;))[1]
+</code></pre>
+
+<pre><code>## [1] &quot;Permission is granted to anybody to access, use and publish all open for public data freely&quot;
+</code></pre>
+
+<ul>
+<li>Assemble everything
+
+<ul>
+<li>Dataset <code>dataset_described</code></li>
+<li>title <code>title</code></li>
+<li>creator <code>creator_claas</code></li>
+<li>contact <code>contact_claas</code></li>
+<li>usage rights <code>license</code></li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-18" style="background:;">
+  <hgroup>
+    <h2>Describe your own. More!</h2>
+  </hgroup>
+  <article data-timings="">
+    <hr />
+
+<ul>
+<li>Create the eml object: </li>
+</ul>
+
+<pre><code class="r">data &lt;- eml(dat = described_dataset,
+            title = title,
+            creator = creator_claas,
+            contact = contact_claas,
+            intellectualRights = license,
+          )
+</code></pre>
+
+<pre><code class="r">slotNames(new(&quot;dataset&quot;))[1:10]
+</code></pre>
+
+<pre><code>##  [1] &quot;alternateIdentifier&quot; &quot;shortName&quot;           &quot;title&quot;              
+##  [4] &quot;creator&quot;             &quot;metadataProvider&quot;    &quot;associatedParty&quot;    
+##  [7] &quot;pubDate&quot;             &quot;language&quot;            &quot;series&quot;             
+## [10] &quot;abstract&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-19" style="background:;">
+  <hgroup>
+    <h2>Describe your own. Write!</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Write it to a file.</li>
+</ul>
+
+<pre><code class="r">eml_write(data, file=&quot;mymetadata.xml&quot;)
+</code></pre>
+
+<pre><code>## [1] &quot;mymetadata.xml&quot;
+</code></pre>
+
+<ul>
+<li>Validate it!</li>
+</ul>
+
+<pre><code class="r">eml_validate(&quot;mymetadata.xml&quot;) 
+</code></pre>
+
+<pre><code>## EML specific tests XML specific tests 
+##               TRUE               TRUE
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-20" style="background:;">
+  <hgroup>
+    <h2>Publish it!</h2>
+  </hgroup>
+  <article data-timings="">
+    <hr />
+
+<p><br></p>
+
+<ul>
+<li>Currently supported (figshare, knb)</li>
+<li>Example figshare:</li>
+</ul>
+
+<pre><code class="r">eml_publish(&quot;mymetadata.xml&quot;, 
+            description=&quot;My example EML file&quot;,
+            categories = &quot;Ecology&quot;, 
+            tags = &quot;EML&quot;, 
+            destination=&quot;figshare&quot;) 
+</code></pre>
+
+<ul>
+<li>Note requires the <code>rfigshare</code> package + account</li>
+<li>Creates a draft file (visible only to you)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-21" style="background:;">
+  <hgroup>
+    <h2>What&#39;s next?</h2>
+  </hgroup>
+  <article data-timings="">
+    <hr />
+
+<p><br>
+<br></p>
+
+<ul>
+<li>We work on a better cover of EML modules</li>
+<li>Write smart helper functions 
+
+<ul>
+<li>put away the s4 class from (eml, eml_user, eml_get)</li>
+</ul></li>
+<li>Better documentation</li>
+<li>Hopefully soon a stable CRAN release</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-22" style="background:;">
+  <hgroup>
+    <h2>Potential? Wrap-Up</h2>
+  </hgroup>
+  <article data-timings="">
+    <hr />
+
+<p><br>
+<br></p>
+
+<ul>
+<li><p>The <code>EML</code> package: </p>
+
+<ul>
+<li>Simplify metadata creation (reuse)</li>
+<li>Helps understanding data</li>
+<li>Fast import of data (R)</li>
+<li>Raise visibility (publilshing)</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-23" style="background:;">
+  <article data-timings="">
+    <p><br>
+<br></p>
+
+<div class = "flushcenter">
+     <h1>Thanks for your attention!</h1>
+     <h1>Any questions?</h1>
+</div>
+
+<p><br>
+<br></p>
+
+<p><a href="https://github.com/cpfaff/remlpackage/archive/gh-pages.zip">https://github.com/cpfaff/remlpackage/archive/gh-pages.zip</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='About the package'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='About the package'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='About the package'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Install the package'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='Read metadata'>
+         5
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=6 title='Read metadata'>
+         6
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=7 title='Read metadata'>
+         7
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=8 title='Read metadata'>
+         8
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=9 title='Read metadata'>
+         9
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=10 title='Describe your own'>
+         10
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=11 title='Describe your own'>
+         11
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=12 title='Describe your own'>
+         12
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=13 title='Describe your own. More!'>
+         13
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=14 title='Describe your own. More!'>
+         14
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=15 title='Describe your own. More!'>
+         15
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=16 title='Describe your own. More!'>
+         16
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=17 title='Describe your own. More!'>
+         17
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=18 title='Describe your own. More!'>
+         18
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=19 title='Describe your own. Write!'>
+         19
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=20 title='Publish it!'>
+         20
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=21 title='What&#39;s next?'>
+         21
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=22 title='Potential? Wrap-Up'>
+         22
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=23 title=''>
+         23
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  <script src="libraries/widgets/bootstrap/js/bootstrap.min.js"></script>
+<script src="libraries/widgets/bootstrap/js/bootbox.min.js"></script>
+
+  <!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script> -->
+  <script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="libraries/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+<script>  
+  $(function (){ 
+    $("#example").popover(); 
+    $("[rel='tooltip']").tooltip(); 
+  });  
+  </script>  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
