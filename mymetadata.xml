@@ -1,4 +1,4 @@
-<eml:eml xmlns:eml="eml://ecoinformatics.org/eml-2.1.1" xmlns:ds="eml://ecoinformatics.org/dataset-2.1.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.1" packageId="7bf87f50-e93e-4568-b13b-606617925dca" system="uuid" scope="system">
+<eml:eml xmlns:eml="eml://ecoinformatics.org/eml-2.1.1" xmlns:ds="eml://ecoinformatics.org/dataset-2.1.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.1" packageId="a7bef4bd-adc5-4811-90fc-27e3fa1b673a" system="uuid" scope="system">
   <dataset id="42" scope="document">
     <title>This is my first dataset title with EML from R</title>
     <creator>
@@ -29,10 +29,10 @@
       </address>
       <electronicMailAddress>fake@test.com</electronicMailAddress>
     </contact>
-    <dataTable id="44ead7b4-9c25-4adf-a61a-183c68cc17a8" system="uuid" scope="system">
+    <dataTable id="3c4a7c47-fcd7-4b8e-aac7-b6eebf28984b" system="uuid" scope="system">
       <entityName>This is my first dataset title with EML from R</entityName>
       <physical>
-        <objectName>table_495545.csv</objectName>
+        <objectName>table_95010e.csv</objectName>
         <size>5000</size>
         <characterEncoding>en_US.UTF-8</characterEncoding>
         <dataFormat>
@@ -47,7 +47,7 @@
           </textFormat>
         </dataFormat>
       </physical>
-      <attributeList id="254d3f5d-48e1-465a-a8c2-93c2f989df69">
+      <attributeList id="15c90a7c-63fb-4eca-aff6-ff7fd9070d95">
         <attribute>
           <attributeName>river</attributeName>
           <attributeDefinition>River site used for collection</attributeDefinition>

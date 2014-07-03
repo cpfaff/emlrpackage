@@ -533,5 +533,5 @@ eml_publish("mymetadata.xml",
 <br>
 <br>
 
-https://github.com/cpfaff/remlpackage/archive/gh-pages.zip
+https://ctpfaff.github.com/emlrpackage
 
