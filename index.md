@@ -2,7 +2,7 @@
 title       : The EML R package
 subtitle    : Metadata integration into R
 author      : Claas-Thido Pfaff
-job         : 
+job         : http://cpfaff.github.io/emlrpackage
 framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
 highlighter : highlight.js  # {highlight.js, prettify, highlight}
 hitheme     : tomorrow      # 
@@ -459,6 +459,8 @@ eml_write(data, file="mymetadata.xml")
 ```
 ## [1] "mymetadata.xml"
 ```
+ 
+http://cpfaff.github.io/emlrpackage/mymetadata.xml
 
 * Validate it!
 
@@ -531,7 +533,12 @@ eml_publish("mymetadata.xml",
 </div>
 
 <br>
+* Find this slides: 
 <br>
+http://cpfaff.github.io/emlrpackage/#1
 
-https://ctpfaff.github.com/emlrpackage
+<br>
+* Find EML package: 
+<br>
+https://github.com/ropensci/EML
 
